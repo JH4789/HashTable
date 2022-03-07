@@ -20,6 +20,7 @@ class studentinfo {
 public:
   int index;
   Node* head = NULL;
+  Node* tail = NULL;
   void setIndex(int newindex) {
     index = newindex;
   }
@@ -30,20 +31,22 @@ public:
     if(head == NULL) {
       Node* newnode = new Node();
       newnode->value = newvalue;
-      head = newnode; 
+      newnode->next = NULL;
+      head = newnode;
+      tail = newnode;
     }
     else {
     Node* newnode = new Node();
     newnode->value = newvalue;
     newnode->next = NULL;
-    head->next = newnode;
-    head = newnode;
-    cout << head->value;
-    }
+    tail->next = newnode;
+    tail = tail ->next;
    }
+  }
 };
 //Function prototyping
-void addStudent(vector <studentinfo*> &v);
+int hashfunction(int studentidhash);
+void addStudent(int newnumber, studentinfo newarray[100]);
 void printStudent(vector <studentinfo*> &v);
 void delStudent(vector <studentinfo*> &v);
 int main() {
@@ -51,12 +54,15 @@ int main() {
   char commandinput[7];
   bool running = true;
   studentinfo test[100];
+  
   for(int i = 0; i < 100; i++) {
     test[i].setIndex(i);
   }
-  
+  addStudent(0, test);
+  addStudent(100, test);
+  cout << hashfunction(100) << endl;
   Node* testing = test[0].getHead();
-  while(testing->next != NULL) {
+  while(testing != NULL) {
     cout << testing->value;
     testing = testing->next;
   }
@@ -83,8 +89,13 @@ int main() {
   }
   */
 }
-void addStudent(vector <studentinfo*> &v) {
-  
+int hashfunction(int studentidhash) {
+  int posthash = studentidhash % 100;
+  return posthash;
+}
+void addStudent(int newnumber, studentinfo newarray[100]) {
+  int bucketnumber = hashfunction(newnumber);
+  newarray[bucketnumber].add(newnumber);
 }
 void printStudent(vector <studentinfo*> &v) {
   
