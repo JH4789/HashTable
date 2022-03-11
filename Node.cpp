@@ -1,14 +1,16 @@
 #include "Node.h"
+#include "Student.h"
 //Functions to iterate through a linked list
-Node::Node(int newvalue) {
-  value = newvalue;
+Node::Node(Student* newstudent) {
+  student = newstudent;
   next = NULL;
 }
 Node::~Node() {
+  delete student;
   next = NULL;
 }
-int Node::getPointer() {
-  return value;
+Student* Node::getPointer() {
+  return student;
 }
 void Node::setNext(Node* newnext) {
   next = newnext;

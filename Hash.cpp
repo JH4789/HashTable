@@ -25,26 +25,26 @@ public:
     return head;
   }
   
-void addStudent(Node* prev, Node* current, int newvalue) {
+void addStudent(Node* prev, Node* current, Student* newstudent) {
   //Function checks for an empty list and then places the new node based on the value of its ID
   if(head == NULL) {
-    head = new Node(newvalue);
+    head = new Node(newstudent);
     head->setNext(NULL);
   }
   else if(current == NULL) {
-    prev -> setNext(new Node(newvalue));
+    prev -> setNext(new Node(newstudent));
     prev->getNext()->setNext(NULL);
   }
     //Recursion at the end if none satisfied
   else {
-    addStudent(current, current->getNext(), newvalue);
+    addStudent(current, current->getNext(), newstudent);
    }  
 }
-void delStudent(Node* prev, Node* current, int deletevalue) {
+  void delStudent(Node* prev, Node* current, int deletevalue) {
   if(head == NULL) {
     cout << "There is nothing here! Try adding some students first" << endl;
   }
-  else if(deletevalue == current->getPointer()){
+  else if(deletevalue == current->getPointer()->getID()){
     if(current == head) {
       head = head->getNext();
       current->setNext(NULL);
@@ -67,7 +67,7 @@ void delStudent(Node* prev, Node* current, int deletevalue) {
 //Function prototyping
 int hashfunction(int studentidhash);
 //void addStudent(Node* & head, Node* prev, Node* current, int newvalue);
-void printStudent(vector <studentinfo*> &v);
+void printStudent(studentinfo hashtable[], int arraysize);
 //void delStudent(int deletenumber, studentinfo newarray[], Node* head);
 //void delStudent(Node* & head, Node* current, Node* prev, int deletevalue);
 int main() {
@@ -79,31 +79,45 @@ int main() {
   for(int i = 0; i < 100; i++) {
     hashtable[i].setIndex(i);
   }
-  
-  Node* testhead = hashtable[4].getHead();
-  hashtable[4].addStudent(testhead, testhead, 4);
-  Node* testhead1 = hashtable[4].getHead();
-  hashtable[4].addStudent(testhead1, testhead1, 8);
-  Node* newhead = hashtable[4].getHead();
-  hashtable[4].delStudent(newhead, newhead, 4);
-  Node* testing = hashtable[4].getHead();
-  while(testing != NULL) {
-    cout << testing->getPointer() << endl;
-    testing = testing->getNext();
-  }
-  /*
   while(running == true) {
     cout << "Enter ADD to add a student, enter PRINT to print all current students, enter DELETE to delete a student, and enter QUIT to quit the program" << endl;
     cin >> commandinput;
     //Getting inputs 
     if(strcmp(commandinput, "ADD") == 0){
-      addStudent(v);
+      Student* newstudent = new Student();
+      int newid;
+      float newgpa;
+      char firstname[100];
+      char lastname[100];
+      cout << "Please enter the student ID of the student you want to add" << endl;
+      cin >> newid;
+      newstudent->setID(newid);
+      cout << "Please enter the first name of the student you want to add" << endl;
+      cin >> firstname;
+      newstudent->setFirst(firstname);
+
+      cout << "Please enter the last name of the student you want to add" << endl;
+      cin >> lastname;
+      newstudent->setLast(lastname);
+      cout << "Please enter the GPA of the student you want to add" << endl;
+      cin >> newgpa;
+      newstudent->setGPA(newgpa);
+      
+      int hashvalue = hashfunction(newid);
+      Node* testhead = hashtable[hashvalue].getHead();
+      hashtable[hashvalue].addStudent(testhead, testhead, newstudent);
+  
     }
     else if(strcmp(commandinput, "PRINT") == 0) {
-      printStudent(v);
+      printStudent(hashtable, 100);
     }
     else if(strcmp(commandinput, "DELETE") == 0){
-      delStudent(v);
+      int delvalue;
+      cout << "Please enter the student ID of the student you want to delete" << endl;
+      cin >> delvalue;
+      int hashdelvalue = hashfunction(delvalue);
+      Node* deltesthead = hashtable[hashdelvalue].getHead();
+      hashtable[hashdelvalue].delStudent(deltesthead, deltesthead, delvalue);
     }
     else if(strcmp(commandinput, "QUIT") == 0) {
       running = false;
@@ -112,14 +126,20 @@ int main() {
       cout << "Please enter a valid input";
     }
   }
-  */
+  
 }
 int hashfunction(int studentidhash) {
   int posthash = studentidhash % 100;
   return posthash;
 }
-void printStudent(vector <studentinfo*> &v) {
-  
+void printStudent(studentinfo hashtable[], int arraysize) {
+  for(int i = 0; i < arraysize; i++) {
+    Node* current = hashtable[i].getHead();
+    while(current != NULL) {
+      cout << current->getPointer() << endl;
+      current = current->getNext();
+    }
+  }
 }
 /*
 void delStudent(int deletenumber, studentinfo newarray[], Node* head) {

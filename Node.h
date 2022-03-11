@@ -1,17 +1,18 @@
 #ifndef NODEHEADER
 #define NODEHEADER
 #include <iostream>
+#include "Student.h"
 using namespace std;
 class Node{
  public:
-  Node(int newvalue);
+  Node(Student*);
   ~Node();
-  int getPointer();
-  void setNext(Node* next);
+  Student* getPointer();
+  void setNext(Node*);
   Node* getNext();
  private:
   //Needs to hold a Student pointer for code to work
-  int value;
+  Student* student;
   Node* next; 
 };
 
