@@ -159,10 +159,17 @@ int main() {
       int delvalue;
       cout << "Please enter the student ID of the student you want to delete" << endl;
       cin >> delvalue;
-      int hashdelvalue = hashfunction(delvalue);
-      Node* deltesthead = hashtable[hashdelvalue].getHead();
-      hashtable[hashdelvalue].delStudent(deltesthead, deltesthead, delvalue);
-    }
+      if(newhashmade == false) {
+	   int hashdelvalue = hashfunction(delvalue);
+      	   Node* deltesthead = hashtable[hashdelvalue].getHead();
+           hashtable[hashdelvalue].delStudent(deltesthead, deltesthead, delvalue);
+      }
+      else {
+          int hashdelvalue = hashfunctiontwo(delvalue);
+	  Node* deltesthead = hashtable[hashdelvalue].getHead();
+	  newhashtable[hashdelvalue].delStudent(deltesthead, deltesthead, delvalue);
+      }
+    }    
     else if(strcmp(commandinput, "QUIT") == 0) {
       running = false;
     }
